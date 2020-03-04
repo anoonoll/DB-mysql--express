@@ -1,30 +1,36 @@
 var express = require('express');
 var router = express.Router();
+var mysql = require('mysql');
 
-var http = require('https');
-var parseString = require('xml2js').parseString;
+//MySQLの設定情報
+var mysql_setting = {
+    host     : 'localhost', 
+    port     : 8000,
+    user     : 'onokai',
+    password : 'chacopipi0516',
+    database : 'my-nodeapp-db'
+};
 
+//GETアクセスの処理
 router.get('/',(req, res, next) => {
-    var opt = {
-        host: 'news.google.com',
-        port: 443,
-        path: '/rss?ie=UTF-8&oe=UTF-8&hl=en-US&gl=US&ceid=US:en'
-    };
-    http.get(opt, (res2) => {
-        var body = '';
-        res2.on('data',(data) => {
-            body += data;
-        });
-        res2.on('end',() => {
-            parseString(body.trim(), (err, result) => {
-                var data = {
-                    title: 'Hello!',
-                    content: result.rss.channel[0].item
-                };
-                res.render('hello', data);
-            });
-        })
+    
+    //コネクションの用意
+    var connection = mysql.createConnection(mysql_setting);
+
+    //データベースに接続
+    connection.connect();
+
+    //データを取り出す
+    connection.query('SELECT * from mydata', function(error, results, fields) {
+        //データベースアクセス完了時の処理
+        if (error == null) {
+            var data = {title:'mysql', content:results};
+            res.render('hello', data);
+        }
     });
+
+    //接続を解除
+    connection.end();
 });
 
 module.exports = router;
