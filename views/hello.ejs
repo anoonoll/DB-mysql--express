@@ -11,13 +11,13 @@
         </header>
         <div role="main">
             <table>
-                <% for(var i in data) { %>
+                <% for(var i in content) { %>
                     <tr>
                         <% var obj = content[i]; %>
                         <td><%= obj.id %></td>
                         <td><%= obj.name %></td>
                         <td><%= obj.mail %></td>
-                        <td><%= obj.age ></td>
+                        <td><%= obj.age %></td>
                     </tr>
                 <% } %>
             </table>

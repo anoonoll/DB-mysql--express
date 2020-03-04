@@ -5,9 +5,8 @@ var mysql = require('mysql');
 //MySQLの設定情報
 var mysql_setting = {
     host     : 'localhost', 
-    port     : 8000,
-    user     : 'onokai',
-    password : 'chacopipi0516',
+    user     : 'root',
+    password : '',
     database : 'my-nodeapp-db'
 };
 
